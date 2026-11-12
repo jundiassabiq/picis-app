@@ -1,6 +1,6 @@
-# duitku
+# picis
 
-Pencatat keuangan harian yang berjalan di browser. Catat pengeluaran, baca nominal dari QR struk, atur anggaran per kategori, dan lihat ke mana uang pergi. Semua data tersimpan di `localStorage`, tanpa server dan tanpa akun terpusat.
+Pencatat keuangan harian yang berjalan di browser. Catat pengeluaran, baca nominal dari QR struk, atur anggaran per kategori, dan lihat ke mana uang pergi. Semua data tersimpan di `localStorage`, tanpa server dan tanpa akun terpusat. Tampilan diutamakan untuk ponsel, lalu melebar ke desktop.
 
 Prototype fungsional, dibuat berdasarkan `USER-FLOWS.md` dan referensi visual dari soal.
 
@@ -30,7 +30,7 @@ Perintah lain:
 
 | Email | Password |
 |---|---|
-| `demo@duitku.id` | `duitku123` |
+| `demo@picis.id` | `picis123` |
 
 Data contoh dibuat deterministik: enam bulan transaksi, tiga dompet, lima anggaran dengan status aman, hati-hati, dan melebihi.
 
@@ -69,10 +69,11 @@ src/
     qr.ts                    decode QR dan parsing nominal
     useCountUp.ts            animasi angka hero
     hash.ts                  digest password khusus demo
-  components/                shell, sheet, toast, grafik, baris transaksi, ikon, error boundary
+  components/                shell, sheet, toast, tema, grafik, baris transaksi, ikon, error boundary
   pages/                     Auth, Dashboard, Transactions, Budgets, Wallets, Categories, Scan, Settings
   styles/                    tokens, base, ui, pages
-scripts/                     dev server esbuild, build, verifikasi browser, generator QR
+scripts/                     dev server esbuild, build, verifikasi browser, generator QR, aset logo, lembar palet
+assets-logo-source.png       gambar logo sumber, dasar pembuatan public/logo.png
 ```
 
 Bundler memakai esbuild langsung (bukan Vite) karena binari native rollup diblokir kebijakan Application Control di mesin ini. Server pengembangan hanya menyajikan `dist/` dengan fallback SPA, jadi tautan seperti `/transactions?month=2026-11` tetap bekerja saat di-refresh.
@@ -94,6 +95,16 @@ Ringkas:
 - Tiga warna punya tugas, bukan hiasan. Pink berarti uang keluar, teal uang masuk, butter butuh perhatian.
 - Huruf Bricolage Grotesque untuk angka dan judul, Plus Jakarta Sans untuk teks antarmuka. Plus Jakarta Sans digambar di Jakarta, cocok dengan bahasa produk.
 - Motif berulang: gelang putus-putus di sekitar angka, sparkle sebagai penanda bagian, tombol pil dan kartu bersudut 26 sampai 34 piksel.
+- Logo memakai mark dari gambar sumber: kertas krem, struk teal, dan koin butter di atas pink. Aset diturunkan menjadi `public/logo.png`, `logo-mark.png` transparan untuk latar pink, dan favicon.
+
+### Tampilan ponsel
+
+- Angka ringkasan disusun tiga kolom supaya tidak perlu menggulir jauh.
+- Pengganti bulan memakai tombol panah 44 piksel, bukan deretan chip.
+- Busur anggaran di desktop diganti bar tipis di kartu saldo saat layar sempit.
+- Tombol aksi utama melebar, tombol scan menjadi ikon supaya satu baris.
+- Halaman scan mengantar ke kartu hasil setelah foto terbaca.
+- Tema dipasang sebelum cat pertama lewat skrip kecil di `index.html`, jadi tidak ada kedip terang saat mode gelap dibuka.
 
 ## Aksesibilitas dan ketahanan
 
@@ -106,12 +117,12 @@ Ringkas:
 
 ## Verifikasi
 
-`node scripts/verify.mjs` menjalankan Chrome headless lewat DevTools Protocol dan menguji 31 skenario: login demo, tambah transaksi, simpan, filter URL, hapus dan urungkan, ubah transaksi, transfer dengan saldo kurang, decode QR contoh, tema gelap, focus otomatis, Escape, penyimpanan penuh, 404, redirect saat keluar, dan overflow di 360 piksel. Skrip butuh Chrome dengan port debug 9333 dan server dev yang berjalan.
+`node scripts/verify.mjs` menjalankan Chrome headless lewat DevTools Protocol dan menguji 37 skenario: login demo, nama dan logo baru, tambah transaksi, simpan, filter URL, hapus dan urungkan, ubah transaksi, transfer dengan saldo kurang, decode QR contoh, tema sistem dan tombol cepat, tema bertahan setelah reload, focus otomatis, Escape, penyimpanan penuh, 404, redirect saat keluar, dan overflow di 360 piksel. Skrip butuh Chrome dengan port debug 9333 dan server dev yang berjalan.
 
-Hasil terakhir: 30 dari 30 lulus, tanpa error konsol, pada build pengembangan dan produksi.
+Hasil terakhir: 37 dari 37 lulus, tanpa error konsol, pada build produksi.
 
 ## Batasan dan catatan
 
 - Ini penyimpanan lokal, bukan aplikasi bank. Tidak ada enkripsi, tidak ada sinkronisasi, dan tidak ada isolasi data antar pengguna seperti pada server. Digest password hanya penghalang demo.
-- Nama "Duitku" sudah dipakai gateway pembayaran yang cukup dikenal di Indonesia. Ganti nama sebelum dipublikasikan.
-- Ikon aplikasi dan avatar adalah placeholder: huruf `d` untuk merek, inisial nama untuk avatar. Belum ada logo final.
+- Nama produk sekarang Picis, sesuai nama repo. Data lama di `localStorage` dengan kunci `duitku.v1` tidak dimigrasi, jadi sekali setelah ganti nama aplikasi mulai dari data demo yang baru.
+- Ikon aplikasi memakai logo dari gambar sumber. Avatar tetap inisial nama, bukan foto.

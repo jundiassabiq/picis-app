@@ -9,8 +9,8 @@ function Stage() {
   return (
     <aside className="auth__stage" aria-hidden="true">
       <div className="auth__brand">
-        <i>d</i>
-        duitku
+        <img src="/logo-mark.png" alt="" width={44} height={44} />
+        picis
       </div>
       <div className="auth__pitch">
         <div className="auth__receipt">
@@ -61,8 +61,8 @@ function Shell({
       <Stage />
       <div className="auth__mobile-head">
         <div className="auth__brand">
-          <i>d</i>
-          duitku
+          <img src="/logo-mark.png" alt="" width={40} height={40} />
+          picis
         </div>
         <p className="auth__claim">Uang keluar masuk, akhirnya kelihatan.</p>
       </div>
@@ -120,7 +120,7 @@ export function Login() {
   };
 
   return (
-    <Shell title="Masuk ke duitku" subtitle="Lanjutkan catatan keuanganmu. Data tersimpan di perangkat ini.">
+    <Shell title="Masuk ke picis" subtitle="Lanjutkan catatan keuanganmu. Data tersimpan di perangkat ini.">
       <form onSubmit={submit} style={{ display: 'grid', gap: 14 }} noValidate>
         {error ? (
           <div className="alert" role="alert">
@@ -207,7 +207,7 @@ export function Register() {
 
   return (
     <Shell
-      title="Buat akun duitku"
+      title="Buat akun picis"
       subtitle="Satu akun untuk mencatat pengeluaran harian, anggaran, dan dompet."
     >
       <form onSubmit={submit} style={{ display: 'grid', gap: 14 }} noValidate>

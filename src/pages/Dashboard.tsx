@@ -22,7 +22,7 @@ import {
 import { Gauge, Progress, TrendBars } from '../components/charts';
 import { TxRow } from '../components/TxRow';
 import { useCountUp } from '../lib/useCountUp';
-import { Button, EmptyState } from '../components/ui';
+import { Button, EmptyState, MonthNav } from '../components/ui';
 import { useQuickAdd } from '../components/quickadd';
 import {
   CATEGORY_ICONS,
@@ -152,36 +152,12 @@ export default function Dashboard() {
 
   const budgetsUsed = model.budgetSum.progress;
   const progressMonth = monthProgress(month);
-  const previousMonth = shiftMonth(month, -1);
 
   return (
     <div className="page">
-      <div className="dash__greet">
-        <div>
-          <p className="eyebrow">{monthLabel(month)}</p>
-          <h1>Uangmu bulan ini</h1>
-        </div>
-        <div className="row" style={{ gap: 6 }}>
-          <button
-            type="button"
-            className="chip"
-            onClick={() => setMonth(previousMonth)}
-            aria-label={`Lihat ${monthLabel(previousMonth)}`}
-          >
-            {monthLabel(previousMonth).slice(0, 3)}
-          </button>
-          <span className="chip is-active">{monthLabel(month).slice(0, 3)}</span>
-          {month < currentMonth() ? (
-            <button
-              type="button"
-              className="chip"
-              onClick={() => setMonth(shiftMonth(month, 1))}
-              aria-label={`Lihat ${monthLabel(shiftMonth(month, 1))}`}
-            >
-              {monthLabel(shiftMonth(month, 1)).slice(0, 3)}
-            </button>
-          ) : null}
-        </div>
+      <div className="page__head" style={{ marginBottom: 12 }}>
+        <h1>Uangmu bulan ini</h1>
+        <MonthNav month={month} maxMonth={currentMonth()} onChange={setMonth} />
       </div>
 
       <div className="dash">
@@ -226,14 +202,28 @@ export default function Dashboard() {
             </span>
           </div>
 
+          {model.budgets.length > 0 ? (
+            <div className="hero__budget">
+              <div className="hero__budget-top">
+                <span>Anggaran terpakai</span>
+                <b>{budgetsUsed}%</b>
+              </div>
+              <Progress
+                value={budgetsUsed}
+                state={budgetsUsed >= 100 ? 'over' : budgetsUsed >= 80 ? 'warn' : 'safe'}
+                label={`Anggaran terpakai ${budgetsUsed} persen`}
+              />
+            </div>
+          ) : null}
+
           <div className="hero__actions">
-            <Button variant="ink" onClick={() => quick.open()}>
+            <Button variant="ink" onClick={() => quick.open()} style={{ flex: 1 }}>
               <IconPlus size={17} />
               Catat transaksi
             </Button>
-            <Link className="btn hero__ghost" to="/scan">
-              <IconQr size={17} />
-              Scan struk
+            <Link className="btn hero__ghost hero__scan" to="/scan" aria-label="Scan QR struk">
+              <IconQr size={18} />
+              <span className="hero__scan-text">Scan struk</span>
             </Link>
           </div>
         </section>
@@ -269,7 +259,7 @@ export default function Dashboard() {
           </div>
           <div className="stat" role="listitem">
             <div className="stat__top">
-              <span className="stat__label">Anggaran terpakai</span>
+              <span className="stat__label">Anggaran</span>
               <span className="stat__ring stat__ring--butter" aria-hidden="true">
                 <IconTarget size={15} />
               </span>

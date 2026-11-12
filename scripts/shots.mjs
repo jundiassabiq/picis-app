@@ -73,7 +73,9 @@ await sleep(1400);
 for (let i = 0; i < 4; i += 1) {
   const theme = await evaluate(`document.documentElement.dataset.theme`);
   if (theme === 'light') break;
-  await evaluate(`document.querySelector('[aria-label^="Tema"]')?.click()`);
+  await evaluate(
+    `[...document.querySelectorAll('[aria-label="Mode gelap"]')].find((el) => el.offsetParent !== null)?.click()`,
+  );
   await sleep(350);
 }
 console.log('theme now', await evaluate(`document.documentElement.dataset.theme`));
@@ -146,7 +148,9 @@ console.log('after register', path1);
 for (let i = 0; i < 4; i += 1) {
   const theme = await evaluate(`document.documentElement.dataset.theme`);
   if (theme === 'light') break;
-  await evaluate(`document.querySelector('[aria-label^="Tema"]')?.click()`);
+  await evaluate(
+    `[...document.querySelectorAll('[aria-label="Mode gelap"]')].find((el) => el.offsetParent !== null)?.click()`,
+  );
   await sleep(350);
 }
 

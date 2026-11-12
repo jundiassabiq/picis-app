@@ -2,8 +2,8 @@ import type { Category, IconKey, Transaction, Wallet, DB } from './types';
 import { hashPassword } from './hash';
 import { shiftMonth, todayISO } from './format';
 
-export const DEMO_EMAIL = 'demo@duitku.id';
-export const DEMO_PASSWORD = 'duitku123';
+export const DEMO_EMAIL = 'demo@picis.id';
+export const DEMO_PASSWORD = 'picis123';
 
 export const DEFAULT_EXPENSE: Array<{ name: string; icon: IconKey }> = [
   { name: 'Makan & Minum', icon: 'food' },

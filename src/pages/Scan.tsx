@@ -26,6 +26,7 @@ export default function Scan() {
   const [dragging, setDragging] = useState(false);
   const [manual, setManual] = useState('');
   const urls = useRef<string[]>([]);
+  const resultRef = useRef<HTMLElement>(null);
 
   useEffect(
     () => () => {
@@ -33,6 +34,14 @@ export default function Scan() {
     },
     [],
   );
+
+  /* Di ponsel kartu hasil ada di bawah kotak unggah, jadi antar ke sana. */
+  useEffect(() => {
+    if (state.status !== 'ok' && state.status !== 'fail') return;
+    if (window.innerWidth >= 720) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    resultRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [state.status]);
 
   const remember = (url: string) => {
     urls.current.push(url);
@@ -211,7 +220,11 @@ export default function Scan() {
           </div>
         </section>
 
-        <section className="card card--pad-lg" aria-labelledby="scan-result-title">
+        <section
+          className="card card--pad-lg scan-result-card"
+          aria-labelledby="scan-result-title"
+          ref={resultRef}
+        >
           <div className="card__head">
             <h2 id="scan-result-title">2. Hasil baca</h2>
             {state.status === 'ok' ? (

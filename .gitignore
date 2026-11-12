@@ -3,9 +3,7 @@ dist/
 .npm-cache/
 .shots/
 .shots-light/
-.chrome/
-.chrome2/
-.chrome-run/
+.chrome*/
 .chrome-err.txt
 .chrome-out.txt
 *.log

@@ -6,11 +6,31 @@
     <meta name="theme-color" content="#F5EBD8" />
     <meta
       name="description"
-      content="Duitku, pencatat keuangan harian: catat pengeluaran, scan QR struk, atur anggaran, dan lihat ke mana uangmu pergi."
+      content="Picis, pencatat keuangan harian: catat pengeluaran, scan QR struk, atur anggaran, dan lihat ke mana uangmu pergi."
     />
-    <title>Duitku, catatan uang harian</title>
-    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <title>Picis, catatan uang harian</title>
+    <link rel="icon" href="/favicon-64.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/main.css" />
+    <script>
+      /* Pasang tema sebelum cat pertama supaya tidak berkedip saat halaman dibuka. */
+      (function () {
+        try {
+          var raw = localStorage.getItem('picis.v1');
+          var pref = raw ? JSON.parse(raw).theme || 'system' : 'system';
+          var dark =
+            pref === 'dark' ||
+            (pref === 'system' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', dark ? '#14100D' : '#F5EBD8');
+        } catch (error) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

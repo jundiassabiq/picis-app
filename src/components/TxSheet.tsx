@@ -72,7 +72,7 @@ export function TxSheet({
     }
     const last = (() => {
       try {
-        return window.localStorage.getItem('duitku.lastWallet');
+        return window.localStorage.getItem('picis.lastWallet');
       } catch {
         return null;
       }
@@ -140,7 +140,7 @@ export function TxSheet({
 
     toast({ message: editing ? 'Transaksi diperbarui.' : 'Transaksi disimpan.' });
     try {
-      window.localStorage.setItem('duitku.lastWallet', walletId);
+      window.localStorage.setItem('picis.lastWallet', walletId);
     } catch {
       // Remembering the last wallet is a convenience, never a reason to fail a save.
     }

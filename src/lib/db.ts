@@ -17,7 +17,7 @@ import { createSeed, makeCategories, makeDefaultWallet } from './seed';
 import { hashPassword } from './hash';
 import { monthOf, todayISO } from './format';
 
-const KEY = 'duitku.v1';
+const KEY = 'picis.v1';
 
 function load(): DB {
   try {

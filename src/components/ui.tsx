@@ -440,6 +440,53 @@ export function MonthBar({
   );
 }
 
+/* Month nav (ringkas) ---------------------------------------------------- */
+
+export function MonthNav({
+  month,
+  onChange,
+  maxMonth,
+}: {
+  month: string;
+  onChange: (month: string) => void;
+  maxMonth?: string;
+}) {
+  const shift = (delta: number) => {
+    const [y, m] = month.split('-').map(Number);
+    const date = new Date(Date.UTC(y, m - 1 + delta, 1));
+    onChange(`${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`);
+  };
+  const label = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(
+    new Date(`${month}-01T12:00:00+07:00`),
+  );
+  const canNext = !maxMonth || month < maxMonth;
+
+  return (
+    <div className="month-nav">
+      <button
+        type="button"
+        className="icon-btn icon-btn--plain"
+        onClick={() => shift(-1)}
+        aria-label="Bulan sebelumnya"
+      >
+        <IconChevronLeft size={19} />
+      </button>
+      <span className="month-nav__label" aria-live="polite">
+        {label}
+      </span>
+      <button
+        type="button"
+        className="icon-btn icon-btn--plain"
+        onClick={() => shift(1)}
+        aria-label="Bulan berikutnya"
+        disabled={!canNext}
+      >
+        <IconChevronRight size={19} />
+      </button>
+    </div>
+  );
+}
+
 /* Empty ------------------------------------------------------------------ */
 
 export function EmptyState({

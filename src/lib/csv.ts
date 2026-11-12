@@ -55,7 +55,7 @@ export function downloadTransactionsCsv(
   wallets: Wallet[],
 ) {
   download(
-    `duitku-transaksi-${todayISO()}.csv`,
+    `picis-transaksi-${todayISO()}.csv`,
     buildTransactionsCsv(txs, categories, wallets),
     'text/csv;charset=utf-8',
   );
@@ -63,7 +63,7 @@ export function downloadTransactionsCsv(
 
 export function downloadAllData(db: DB, userId: string) {
   const payload = {
-    format: 'duitku/data-v1',
+    format: 'picis/data-v1',
     exportedAt: new Date().toISOString(),
     user: db.users.find((u) => u.id === userId) ?? null,
     wallets: db.wallets.filter((w) => w.userId === userId),
@@ -72,7 +72,7 @@ export function downloadAllData(db: DB, userId: string) {
     budgets: db.budgets.filter((b) => b.userId === userId),
   };
   download(
-    `duitku-data-${todayISO()}.json`,
+    `picis-data-${todayISO()}.json`,
     JSON.stringify(payload, null, 2),
     'application/json;charset=utf-8',
   );

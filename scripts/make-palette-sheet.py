@@ -1,4 +1,4 @@
-"""Membuat lembar palet duitku (aplikasi dan maskot) sebagai PNG.
+"""Membuat lembar palet picis (aplikasi dan maskot) sebagai PNG.
 
 Jalankan: python scripts/make-palette-sheet.py
 """
@@ -81,7 +81,7 @@ def app_sheet() -> None:
     img = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(img)
 
-    d.text((70, 52), "duitku", font=font(FONT_BOLD, 46), fill=INK)
+    d.text((70, 52), "picis", font=font(FONT_BOLD, 46), fill=INK)
     d.text((70, 112), "Palet aplikasi. Tiga warna, masing-masing punya tugas.", font=font(FONT_REG, 18), fill=INK_SOFT)
     d.text((W - 70, 62), "v0.1  /  light + dark", font=font(FONT_SEMI, 14), fill=INK_FAINT, anchor="ra")
 
@@ -148,7 +148,7 @@ def mascot_sheet() -> None:
     img = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(img)
 
-    d.text((70, 52), "duitku · palet maskot", font=font(FONT_BOLD, 42), fill=INK)
+    d.text((70, 52), "picis · palet maskot", font=font(FONT_BOLD, 42), fill=INK)
     d.text(
         (70, 108),
         "Kandidat utama: Koin Duit. Badan butter tetap, emosi dan status dibawa aksen.",

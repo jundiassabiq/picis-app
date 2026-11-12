@@ -1,10 +1,10 @@
 import { useState, type ReactNode } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import type { ThemePref } from '../lib/types';
-import { logout, setTheme, useDB, useStorageError, useUser } from '../lib/db';
+import { logout, useStorageError, useUser } from '../lib/db';
 import { fullDateLabel, todayISO } from '../lib/format';
 import { Avatar, Button, Segmented, Sheet, Stage, useToast } from './ui';
 import { useQuickAdd } from './quickadd';
+import { useTheme } from './theme';
 import {
   IconAlert,
   IconGrid,
@@ -30,24 +30,16 @@ const NAV = [
 ];
 
 function Rail() {
-  const db = useDB();
   const user = useUser();
   const navigate = useNavigate();
   const toast = useToast();
-  const theme = db.theme;
-
-  const cycleTheme = () => {
-    const next: ThemePref = theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light';
-    setTheme(next);
-  };
+  const { resolved, toggle } = useTheme();
 
   return (
     <aside className="rail" aria-label="Navigasi utama">
       <Link to="/dashboard" className="rail__brand">
-        <span className="rail__mark" aria-hidden="true">
-          d
-        </span>
-        <span className="rail__word">duitku</span>
+        <img className="rail__mark" src="/logo.png" alt="" width={36} height={36} />
+        <span className="rail__word">picis</span>
       </Link>
 
       <nav className="rail__nav">
@@ -68,7 +60,7 @@ function Rail() {
 
       <div className="rail__foot">
         <div className="rail__foot-card">
-          <Avatar name={user?.name ?? 'D'} tone="ink" />
+          <Avatar name={user?.name ?? 'P'} tone="ink" />
           <div className="grow" style={{ minWidth: 0 }}>
             <p className="rail__foot-name truncate">{user?.name}</p>
             <p className="rail__foot-mail truncate">{user?.email}</p>
@@ -78,10 +70,11 @@ function Rail() {
           <button
             type="button"
             className="icon-btn icon-btn--plain"
-            onClick={cycleTheme}
-            aria-label={`Tema: ${theme === 'light' ? 'terang' : theme === 'dark' ? 'gelap' : 'mengikuti sistem'}. Ganti tema`}
+            onClick={toggle}
+            aria-label="Mode gelap"
+            aria-pressed={resolved === 'dark'}
           >
-            {theme === 'dark' ? <IconMoon size={19} /> : <IconSun size={19} />}
+            {resolved === 'dark' ? <IconMoon size={19} /> : <IconSun size={19} />}
           </button>
           <button
             type="button"
@@ -137,10 +130,10 @@ function TabBar({ onAdd }: { onAdd: () => void }) {
 }
 
 function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const db = useDB();
   const user = useUser();
   const navigate = useNavigate();
   const toast = useToast();
+  const { pref, set } = useTheme();
   if (!user) return null;
 
   const links = [
@@ -196,8 +189,8 @@ function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => void })
         <Segmented
           label="Tema tampilan"
           block
-          value={db.theme}
-          onChange={(value) => setTheme(value)}
+          value={pref}
+          onChange={set}
           options={[
             { value: 'light', label: 'Terang', icon: <IconSun size={15} /> },
             { value: 'dark', label: 'Gelap', icon: <IconMoon size={15} /> },
@@ -225,17 +218,13 @@ function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => void })
 
 export function Shell({ children }: { children: ReactNode }) {
   const user = useUser();
-  const db = useDB();
   const storageError = useStorageError();
   const location = useLocation();
   const [profileOpen, setProfileOpen] = useState(false);
   const quick = useQuickAdd();
+  const { resolved, toggle } = useTheme();
 
   if (!user) return null;
-
-  const cycleTheme = () => {
-    setTheme(db.theme === 'light' ? 'dark' : db.theme === 'dark' ? 'system' : 'light');
-  };
 
   return (
     <>
@@ -258,11 +247,12 @@ export function Shell({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 className="icon-btn"
-                onClick={cycleTheme}
-                aria-label={`Tema: ${db.theme === 'light' ? 'terang' : db.theme === 'dark' ? 'gelap' : 'mengikuti sistem'}. Ganti tema`}
+                onClick={toggle}
+                aria-label="Mode gelap"
+                aria-pressed={resolved === 'dark'}
                 style={{ display: 'grid' }}
               >
-                {db.theme === 'dark' ? <IconMoon size={19} /> : <IconSun size={19} />}
+                {resolved === 'dark' ? <IconMoon size={19} /> : <IconSun size={19} />}
               </button>
               <button
                 type="button"
@@ -297,7 +287,7 @@ export function Shell({ children }: { children: ReactNode }) {
             {children}
           </main>
           <footer className="app__foot">
-            <span>duitku · data tersimpan di perangkat ini</span>
+            <span>picis · data tersimpan di perangkat ini</span>
             <span>v0.1.0</span>
           </footer>
         </div>

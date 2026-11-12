@@ -123,13 +123,22 @@ async function main() {
   await go('/login');
   await shot('01-login-mobile');
   const loginTitle = await evaluate(`document.querySelector('h1')?.textContent ?? ''`);
-  check('login page renders', loginTitle.includes('Masuk ke duitku'), loginTitle);
+  check('login page renders', loginTitle.includes('Masuk ke picis'), loginTitle);
 
   /* --- 2. demo login ---------------------------------------------------- */
   const clickedDemo = await evaluate(`__clickText('Masuk dengan akun demo')`);
   await sleep(1200);
   const afterLogin = await evaluate(`location.pathname + '|' + (document.querySelector('h1')?.textContent ?? '')`);
   check('demo login lands on dashboard', clickedDemo && afterLogin.includes('/dashboard'), afterLogin);
+
+  const brandName = await evaluate(`document.querySelector('.rail__word')?.textContent ?? ''`);
+  check('brand renamed to picis', brandName === 'picis', brandName);
+
+  const logoLoaded = await evaluate(
+    `Array.from(document.images).some((img) => img.src.includes('logo') && img.complete && img.naturalWidth > 0)`,
+  );
+  check('logo asset loads', logoLoaded);
+
   await shot('02-dashboard-mobile', true);
 
   const mobileOverflow = JSON.parse(await overflow());
@@ -204,9 +213,42 @@ async function main() {
   await go('/settings');
   await shot('10-settings-mobile', true);
 
-  /* --- 10. dark mode ---------------------------------------------------- */
+  /* --- 10. tema terang dan gelap --------------------------------------- */
+  await evaluate(`__clickText('Sistem')`);
+  await sleep(500);
+  const systemPref = await evaluate(`JSON.parse(localStorage.getItem('picis.v1')).theme`);
+  check('theme can be set to system', systemPref === 'system', systemPref);
+
+  const beforeToggle = await evaluate(`document.documentElement.dataset.theme`);
+  await evaluate(
+    `[...document.querySelectorAll('[aria-label="Mode gelap"]')].find((el) => el.offsetParent !== null)?.click()`,
+  );
+  await sleep(500);
+  const afterToggle = await evaluate(`document.documentElement.dataset.theme`);
+  check(
+    'topbar toggle flips the visible theme',
+    beforeToggle !== afterToggle,
+    `${beforeToggle} -> ${afterToggle}`,
+  );
+  const explicitPref = await evaluate(`JSON.parse(localStorage.getItem('picis.v1')).theme`);
+  check(
+    'toggle stores an explicit theme',
+    explicitPref === 'light' || explicitPref === 'dark',
+    explicitPref,
+  );
+
+  await send('Page.reload');
+  await sleep(900);
+  const afterReload = await evaluate(`document.documentElement.dataset.theme`);
+  check(
+    'theme survives reload without flash',
+    afterReload === afterToggle,
+    `${afterReload} vs ${afterToggle}`,
+  );
+
+  await go('/settings');
   await evaluate(`__clickText('Gelap')`);
-  await sleep(700);
+  await sleep(600);
   const theme = await evaluate(`document.documentElement.dataset.theme`);
   check('theme switches to dark', theme === 'dark', theme);
   await go('/dashboard');
@@ -214,6 +256,8 @@ async function main() {
   await view(1280, 1000, false);
   await sleep(500);
   await shot('12-dashboard-dark-desktop');
+  await view(390, 844);
+  await go('/settings');
   await evaluate(`__clickText('Terang')`);
   await sleep(400);
 
@@ -393,7 +437,7 @@ async function main() {
   check('unknown route shows 404 page', notFound.includes('tidak ketemu'), notFound);
 
   /* --- 19. logout guard ------------------------------------------------ */
-  await evaluate(`localStorage.removeItem('duitku.v1')`);
+  await evaluate(`localStorage.removeItem('picis.v1')`);
   await send('Page.navigate', { url: `${APP}/budgets` });
   await sleep(1000);
   const guarded = await evaluate(`location.pathname`);

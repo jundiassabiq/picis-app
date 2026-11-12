@@ -161,14 +161,19 @@ export default function Transactions() {
         <div>
           <h1>Transaksi</h1>
           <p className="lede" style={{ marginTop: 6, fontSize: 13.5 }}>
-            {model.scoped.length} catatan di {monthLabel(month)}. Filter tersimpan di URL, jadi bisa
-            di-refresh atau dibagikan.
+            {model.scoped.length} catatan di {monthLabel(month)}.
           </p>
         </div>
         <div className="row" style={{ gap: 8 }}>
-          <Button variant="cream" onClick={exportCsv} disabled={model.scoped.length === 0}>
+          <Button
+            variant="cream"
+            className="btn--compact-mobile"
+            onClick={exportCsv}
+            disabled={model.scoped.length === 0}
+            aria-label="Ekspor CSV"
+          >
             <IconDownload size={17} />
-            Ekspor CSV
+            <span className="btn__label">Ekspor CSV</span>
           </Button>
           <Button variant="primary" onClick={() => quick.open()}>
             <IconPlus size={17} />
@@ -184,7 +189,7 @@ export default function Transactions() {
           <input
             className="input"
             type="search"
-            placeholder="Cari catatan, kategori, dompet"
+            placeholder="Cari catatan"
             value={q}
             onChange={(event) => update({ q: event.target.value || null })}
           />
@@ -416,7 +421,7 @@ export default function Transactions() {
 
         <div className="alert alert--teal">
           <IconCalendar size={16} />
-          Bulan aktif: {monthLabel(month)}. Ganti bulan lewat tombol di atas daftar.
+          Bulan aktif: {monthLabel(month)}. Filter ikut tersimpan di URL, jadi aman di-refresh.
         </div>
 
         {cat ? (

@@ -8,10 +8,10 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import type { ThemePref } from './lib/types';
-import { useDB, useUser } from './lib/db';
+import { useUser } from './lib/db';
 import { Shell } from './components/Shell';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ThemeProvider } from './components/theme';
 import { TxSheet } from './components/TxSheet';
 import { ToastProvider } from './components/ui';
 import { QuickAddContext, type QuickAddPrefill } from './components/quickadd';
@@ -24,31 +24,6 @@ import Categories from './pages/Categories';
 import Scan from './pages/Scan';
 import Settings from './pages/Settings';
 import { IconArrowRight } from './components/icons';
-
-function useResolvedTheme(pref: ThemePref) {
-  const [systemDark, setSystemDark] = useState(
-    () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
-  );
-
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = (event: MediaQueryListEvent) => setSystemDark(event.matches);
-    query.addEventListener('change', onChange);
-    return () => query.removeEventListener('change', onChange);
-  }, []);
-
-  const resolved: 'light' | 'dark' =
-    pref === 'system' ? (systemDark ? 'dark' : 'light') : pref;
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = resolved;
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', resolved === 'dark' ? '#14100d' : '#f5ebd8');
-  }, [resolved]);
-
-  return resolved;
-}
 
 const TITLES: Record<string, string> = {
   '/dashboard': 'Beranda',
@@ -65,7 +40,7 @@ const TITLES: Record<string, string> = {
 function RouteEffects() {
   const { pathname } = useLocation();
   useEffect(() => {
-    document.title = `${TITLES[pathname] ?? 'Halaman tidak ditemukan'} · Duitku`;
+    document.title = `${TITLES[pathname] ?? 'Halaman tidak ditemukan'} · Picis`;
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [pathname]);
   return null;
@@ -117,9 +92,7 @@ function NotFound() {
 }
 
 function Root() {
-  const db = useDB();
   const user = useUser();
-  useResolvedTheme(db.theme);
 
   const [addOpen, setAddOpen] = useState(false);
   const [prefill, setPrefill] = useState<QuickAddPrefill | null>(null);
@@ -174,7 +147,9 @@ export default function App() {
   return (
     <ToastProvider>
       <BrowserRouter>
-        <Root />
+        <ThemeProvider>
+          <Root />
+        </ThemeProvider>
       </BrowserRouter>
     </ToastProvider>
   );

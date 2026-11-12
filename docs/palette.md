@@ -1,4 +1,4 @@
-# Palet warna duitku
+# Palet warna picis
 
 Sumber kebenaran ada di `src/styles/tokens.css`. Lembar gambar dihasilkan dari file itu oleh `scripts/make-palette-sheet.py`.
 

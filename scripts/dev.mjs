@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`duitku dev server: http://127.0.0.1:${port}`);
+  console.log(`picis dev server: http://127.0.0.1:${port}`);
 });
 
 const shutdown = () => {

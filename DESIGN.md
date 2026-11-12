@@ -1,4 +1,4 @@
-# DESIGN.md, arah visual duitku
+# DESIGN.md, arah visual picis
 
 Dokumen ini mencatat keputusan desain dan alasannya, supaya perubahan berikutnya tetap konsisten.
 
@@ -14,7 +14,7 @@ Membaca brief ini sebagai: aplikasi keuangan pribadi untuk pekerja muda Indonesi
 
 Referensi adalah aplikasi belajar dengan kartu krem, angka raksasa, busur progres, dan papan peringkat bertingkat. Yang diambil adalah bahasa visualnya, bukan isinya:
 
-| Di referensi | Di duitku |
+| Di referensi | Di picis |
 |---|---|
 | Progres belajar dengan busur | Anggaran terpakai dengan busur yang sama |
 | Papan peringkat tiga warna | Tiga kategori pengeluaran terbesar |

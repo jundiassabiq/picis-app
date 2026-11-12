@@ -5,7 +5,6 @@ import {
   deleteAccount,
   logout,
   resetDemoData,
-  setTheme,
   updateProfile,
   useDB,
   useUser,
@@ -13,6 +12,7 @@ import {
 import { downloadAllData, downloadTransactionsCsv } from '../lib/csv';
 import { dayLabel } from '../lib/format';
 import { Avatar, Button, ConfirmSheet, Field, Segmented, useToast } from '../components/ui';
+import { useTheme } from '../components/theme';
 import {
   IconAlert,
   IconCheck,
@@ -29,6 +29,7 @@ export default function Settings() {
   const user = useUser();
   const toast = useToast();
   const navigate = useNavigate();
+  const { pref, set } = useTheme();
   const [name, setName] = useState(user?.name ?? '');
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
@@ -104,9 +105,9 @@ export default function Settings() {
           <Segmented
             label="Tema tampilan"
             block
-            value={db.theme}
+            value={pref}
             onChange={(value: ThemePref) => {
-              setTheme(value);
+              set(value);
               toast({
                 message:
                   value === 'system'
@@ -229,7 +230,7 @@ export default function Settings() {
           </header>
           <div className="set-row">
             <div>
-              <p className="set-row__label">duitku 0.1.0</p>
+              <p className="set-row__label">picis 0.1.0</p>
               <p className="set-row__hint">
                 Pencatat keuangan lokal. Tanpa sambung bank, tanpa server, tanpa pelacak.
               </p>
