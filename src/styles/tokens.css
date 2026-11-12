@@ -1,0 +1,113 @@
+/* ==========================================================================
+   Duitku tokens
+   Palette is three colours with a job, not a mood board:
+   pink = uang keluar, teal = uang masuk, butter = perhatian.
+   Everything else is paper, ink, and the tints those three produce.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --paper: #f5ebd8;
+  --paper-deep: #eddfc4;
+  --surface: #fffdf8;
+  --surface-2: #fbf1df;
+  --surface-3: #f6e8d1;
+
+  --ink: #1a1512;
+  --ink-soft: #574e43;
+  --ink-faint: #6e6455;
+  --on-ink: #fff9ee;
+
+  --line: #e6d8c0;
+  --line-strong: #d3c0a0;
+
+  --pink: #db2a50;
+  --pink-deep: #a8193c;
+  --pink-soft: #fbdde4;
+  --pink-tint: #f8c9d4;
+  --on-pink: #ffffff;
+
+  --teal: #0f6755;
+  --teal-deep: #0a4a3d;
+  --teal-soft: #d9efe6;
+  --teal-tint: #b9e0d3;
+  --on-teal: #ffffff;
+
+  --butter: #efaf23;
+  --butter-soft: #fbe8bd;
+  --on-butter: #1a1512;
+
+  --income: var(--teal);
+  --expense: var(--pink);
+  --warning: var(--butter);
+
+  --focus: #0f6755;
+  --scrim: rgba(26, 21, 18, 0.42);
+  --shadow-lift: 0 24px 48px -28px rgba(26, 21, 18, 0.55);
+  --shadow-card: 0 1px 0 rgba(26, 21, 18, 0.05), 0 20px 40px -32px rgba(26, 21, 18, 0.6);
+  --edge: inset 0 -3px 0 rgba(26, 21, 18, 0.16);
+
+  --r-xl: 34px;
+  --r-lg: 26px;
+  --r-md: 18px;
+  --r-sm: 12px;
+  --r-pill: 999px;
+
+  --display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  --ui: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --fast: 140ms;
+  --med: 260ms;
+  --slow: 520ms;
+
+  --tabbar-h: 74px;
+  --rail-w: 264px;
+  --page-max: 1180px;
+  --gutter: clamp(16px, 4vw, 34px);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: #14100d;
+  --paper-deep: #0d0a08;
+  --surface: #1e1915;
+  --surface-2: #251f1a;
+  --surface-3: #2c241d;
+
+  --ink: #f8efe1;
+  --ink-soft: #cfc2b1;
+  --ink-faint: #a99b88;
+  --on-ink: #14100d;
+
+  --line: #352b23;
+  --line-strong: #4a3d31;
+
+  --pink: #d92651;
+  --pink-deep: #ff8fa6;
+  --pink-soft: #3a1220;
+  --pink-tint: #571a2c;
+  --on-pink: #ffffff;
+
+  --teal: #177a64;
+  --teal-deep: #8ce2cb;
+  --teal-soft: #0f2e27;
+  --teal-tint: #17453a;
+  --on-teal: #ffffff;
+
+  --butter: #efaf23;
+  --butter-soft: #3a2c0d;
+  --on-butter: #14100d;
+
+  --income: #8ce2cb;
+  --expense: #ff8fa6;
+  --warning: var(--butter);
+
+  --focus: #8ce2cb;
+  --scrim: rgba(6, 4, 3, 0.65);
+  --shadow-lift: 0 24px 48px -24px rgba(0, 0, 0, 0.8);
+  --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 40px -32px rgba(0, 0, 0, 0.9);
+  --edge: inset 0 -3px 0 rgba(0, 0, 0, 0.35);
+}
